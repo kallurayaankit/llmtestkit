@@ -1,0 +1,35 @@
+[project]
+name = "llmtestkit"
+version = "0.1.0"
+description = "A testing framework for LLM and AI systems - hallucination, groundedness, prompt injection, refusal quality, RAG, and agentic workflows"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Ankit Kalluraya" }]
+dependencies = [
+    "requests",
+    "python-dotenv",
+    "pyyaml",
+    "jinja2",
+    "pytest",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov"]
+
+[project.scripts]
+llmtest = "llmtestkit.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+llmtestkit = ["templates/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

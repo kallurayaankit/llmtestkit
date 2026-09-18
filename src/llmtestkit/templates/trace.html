@@ -1,0 +1,88 @@
+<details class="trace {{ 'failed' if has_fail else 'passed' }}">
+  <summary>
+    <span class="id">{{ trace.example_id or trace.trace_id }}</span>
+    <span class="badges">
+      {% for s in trace.scores %}
+      <span class="badge {{ 'pass' if s.passed else 'fail' }}">{{ s.name }}: {{ "%.2f"|format(s.value) }}</span>
+      {% endfor %}
+    </span>
+  </summary>
+  <div class="body">
+    <div class="section">
+      <div class="section-title">Input</div>
+      <div class="io">{{ trace.input }}</div>
+    </div>
+
+    {% if trace.reference %}
+    <div class="section">
+      <div class="section-title">Reference</div>
+      <div class="io">{{ trace.reference }}</div>
+    </div>
+    {% endif %}
+
+    {% if trace.context %}
+    <div class="section">
+      <div class="section-title">Retrieved Context ({{ trace.context|length }} docs)</div>
+      {% for doc in trace.context %}
+      <div class="io">{{ doc }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="section">
+      <div class="section-title">Model Output</div>
+      <div class="io">{{ trace.output }}</div>
+    </div>
+
+    {% if trace.spans %}
+    <div class="section">
+      <div class="section-title">Span Tree</div>
+      <div class="spans">
+        {% for span in trace.spans %}
+        <div class="span-row">
+          <span class="span-name">{{ span.name }}</span>
+          <span class="span-type">{{ span.span_type }}</span>
+          {% if span.attributes %}
+          <span class="span-attrs">{{ span.attributes | tojson }}</span>
+          {% endif %}
+          <span class="span-ms">{{ "%.0f"|format(span.duration_ms) }}ms</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="section">
+      <div class="section-title">Scores</div>
+      <table class="scores">
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+          <th>Threshold</th>
+          <th>Verdict</th>
+        </tr>
+        {% for s in trace.scores %}
+        <tr>
+          <td>{{ s.name }}</td>
+          <td class="num">{{ "%.2f"|format(s.value) }}</td>
+          <td class="num">{{ "%.2f"|format(s.threshold) }}</td>
+          <td><span class="badge {{ 'pass' if s.passed else 'fail' }}">{{ 'PASS' if s.passed else 'FAIL' }}</span></td>
+        </tr>
+        {% if s.evidence %}
+        <tr>
+          <td colspan="4">
+            <div class="evidence">{{ s.evidence }}</div>
+            {% if s.judge_model %}
+            <div class="provenance">
+              judge={{ s.judge_model }} &middot; prompt_hash={{ s.judge_prompt_hash }} &middot; rubric={{ s.rubric_version }}
+              {% if s.latency_ms %} &middot; {{ "%.0f"|format(s.latency_ms) }}ms{% endif %}
+            </div>
+            {% endif %}
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</details>

@@ -1,0 +1,5 @@
+{"id": "qa-001", "input": "What is the capital of France? Answer in one word.", "reference": "Paris", "metadata": {"category": "geography"}}
+{"id": "qa-002", "input": "What is 15 multiplied by 4? Answer with just the number.", "reference": "60", "metadata": {"category": "math"}}
+{"id": "qa-003", "input": "Who wrote the play Romeo and Juliet? Answer with the author name only.", "reference": "William Shakespeare", "metadata": {"category": "literature"}}
+{"id": "qa-004", "input": "What is the chemical symbol for gold? Answer in one or two characters.", "reference": "Au", "metadata": {"category": "chemistry"}}
+{"id": "qa-005", "input": "What is the largest planet in our solar system? Answer in one word.", "reference": "Jupiter", "metadata": {"category": "astronomy"}}

@@ -1,0 +1,8 @@
+suite_name: qa-general
+model: llama3.2:3b
+dataset: datasets/qa/general_qa.jsonl
+metrics:
+  - name: exact_match
+  - name: contains
+  - name: correctness
+    threshold: 0.7
